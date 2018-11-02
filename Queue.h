@@ -1,64 +1,147 @@
-#include "DLinkedList.h"
+#ifndef Queue_H
+#define Queue_H
+#include <iostream>
+#include "DoublyLinkedList.h"
+#include "Node.h"
+using namespace std;
 
-template<class T>
+template <class T>
 class Queue
 {
   public:
+    unsigned int elements;
+    Node<T> *front;
+    Node<T> *back;
+
     Queue();
     ~Queue();
 
-    void insert(T data);
+    void insert(T d);
     T remove();
+
+    T peek();
+    T bPeek();
+
+    void print();
     bool isEmpty();
     unsigned int getSize();
-  private:
-    int size;
-    DLinkedList<T> *myQueue;
 };
 
-template<class T>
+template <class T>
 Queue<T>::Queue()
 {
-  size = 0;
-  myQueue = new DLinkedList<T>();
+  elements = 0;
+  front = NULL;
+  back = NULL;
 }
 
-template<class T>
+template <class T>
 Queue<T>::~Queue()
 {
-  delete myQueue;
+
 }
 
-template<class T>
-void Queue<T>::insert(T data)
+template <class T>
+void Queue<T>::insert(T d)
 {
-  myQueue->insertBack(data);
-  ++size;
-}
-
-template<class T>
-T Queue<T>::remove()
-{
-  if(size < 1)
+  Node<T> *node = new Node<T>(d);
+  if(elements == 0)
   {
-    cerr << "cannot remove on an empty queue" << endl;
-    exit(0);
+      front = node;
   }
   else
   {
-    return myQueue->removeFront();
-    --size;
+      back->next = node;
+      node->prev = back;
+  }
+
+  back = node;
+  ++elements;
+}
+
+template <class T>
+T Queue<T>::remove()
+{
+
+  if(!isEmpty()) {
+    Node<T> *node = front;
+
+    T temp = node->data;
+
+    if(front->next == NULL)
+    {
+      front = NULL;
+      back = NULL;
+    }
+    else
+    {
+      front->next->prev = NULL;
+      front = front->next;
+    }
+
+    delete node;
+    elements--;
+    return temp;
+  }
+  else
+  {
+    return T();
   }
 }
 
-template<class T>
-bool Queue<T>::isEmpty()
-{
-  return size == 0;
+template <class T>
+T Queue<T>::peek()
+ {
+  if(isEmpty() == false)
+  {
+    return front->data;
+  }
+  return T();
 }
 
-template<class T>
-int Queue<T>getSize()
+template <class T>
+T Queue<T>::bPeek()
 {
-  return size;
+  if(isEmpty() == false)
+  {
+    return back->data;
+  }
+  return T();
 }
+
+template <class T>
+void Queue<T>::print()
+{
+  if(isEmpty() == false)
+  {
+    Node<T> *curr = front;
+    while(true)
+    {
+      if(curr != NULL)
+      {
+        curr = curr->next;
+      }
+      else
+      {
+        break;
+      }
+    }
+  }
+  else
+  {
+    cout << "Queue is empty!" << endl;
+  }
+}
+
+template <class T>
+bool Queue<T>::isEmpty()
+{
+  return (elements == 0);
+}
+
+template <class T>
+unsigned int Queue<T>::getSize()
+{
+  return elements;
+}
+#endif

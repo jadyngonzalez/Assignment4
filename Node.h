@@ -1,8 +1,13 @@
+#ifndef Node_H
+#define Node_H
+#include <iostream>
+using namespace std;
+
 template<class T>
 class Node
 {
   public:
-    Node():
+    Node();
     Node(T d);
     ~Node();
 
@@ -12,21 +17,23 @@ class Node
 };
 
 template<class T>
-Node<T>::Node() //default
+Node<T>::Node()
 {
-  data = NULL:
+
 }
 
 template<class T>
-Node<T>::Node(T d) //constructor
+Node<T>::Node(T d)
 {
   data = d;
-  next = NULL:
-  prev = NULL;
+  next=NULL;
+  prev=NULL;
 }
 
 template<class T>
 Node<T>::~Node()
 {
-  //destructor
+  next=NULL;
+  prev=NULL;
 }
+#endif
