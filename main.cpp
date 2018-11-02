@@ -18,7 +18,7 @@ int main(int argc, char **argv)
     fileName = argv[1];
   }
 
-  cout << argv[1] << endl;
+  cout << argv[1] << endl; //test
   Registrar start(fileName);
   start.simulate();
   return 0;
