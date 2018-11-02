@@ -19,7 +19,7 @@ Registrar::~Registrar()
 
 Registrar::Registrar(string fileName)
 {
-  ifstream file;
+  ifstream file; //opens file and reads in values
   string line;
 
   time = 0;
@@ -37,7 +37,7 @@ Registrar::Registrar(string fileName)
   idleTimes = new int[windows];
   window = new bool[windows];
 
-  while(!file.eof())
+  while(!file.eof()) //reads file then assigns values
   {
     file >> line;
     tick = stoi(line);
@@ -55,7 +55,7 @@ Registrar::Registrar(string fileName)
   waitTimes = new int[totalStudents];
 }
 
-bool Registrar::empty()
+bool Registrar::empty() //checks if the windows are empty
 {
   for(int i = 0; i < windows; ++i)
   {
@@ -67,7 +67,7 @@ bool Registrar::empty()
   return true;
 }
 
-void Registrar::enterLine()
+void Registrar::enterLine() //puts a student into the line
 {
   Student s = studentLine.peek();
   while(s.getArrival() == time)
@@ -78,7 +78,7 @@ void Registrar::enterLine()
   }
 }
 
-void Registrar::clearWindows()
+void Registrar::clearWindows()  //opens up a spot after a student leaves
 {
   for(int i = 0; i < windows; ++i)
   {
@@ -97,7 +97,7 @@ void Registrar::clearWindows()
 
 int Registrar::openWindows()
 {
-  for(int i = 0; i < windows; ++i)
+  for(int i = 0; i < windows; ++i) //checks for any open windows
   {
     if(window[i] == false)
     {
@@ -107,7 +107,7 @@ int Registrar::openWindows()
   return -1;
 }
 
-void Registrar::updateWindows()
+void Registrar::updateWindows() //if a window is idle after the next tick it will update its idle time
 {
   for(int i = 0; i < windows; i++)
   {
@@ -131,7 +131,7 @@ void Registrar::updateTime()
   }
 }
 
-double Registrar::calcMedian()
+double Registrar::calcMedian() //calculates median using the sort funciton
 {
   sort(waitTimes, waitTimes + totalStudents - 1);
   if((totalStudents % 2) == 1)
@@ -147,7 +147,7 @@ double Registrar::calcMedian()
   }
 }
 
-void Registrar::calcStats()
+void Registrar::calcStats() // calculates and outputs stats
 {
   double mean = 0;
   int median = 0;
@@ -197,7 +197,7 @@ void Registrar::calcStats()
   cout << "Windows Idle Over 5: " << overFive << endl;
 }
 
-void Registrar::simulate()
+void Registrar::simulate() //runs simulation
 {
   while(!studentLine.isEmpty() || !line.isEmpty() || !empty())
   {
